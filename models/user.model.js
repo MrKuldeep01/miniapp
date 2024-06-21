@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127001:27017");
+mongoose.connect("mongodb://127001:27017/miniProjectDB");
 
 const userSchema = new mongoose.Schema(
   {
