@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127001:27017/miniProjectDB");
-
+const connectionStr = "mongodb://127001:27017/miniProjectDB";
+mongoose.connect(connectionStr)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error(err));
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },

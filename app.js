@@ -17,12 +17,20 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // routes
 
-app.get("/", (req, res) => {
-  // res.render('profile')
-  res.render("register");
+app.get("/", isLoging, async (req, res) => {
+  let owner = {
+    name: "kuldeep",
+    role: "dev",
+    bio: "hahahahahahha",
+  };
+
+  res.render("profile", { owner });
 });
 
-app.post("/reg", async (req, res) => {
+app.get("/register", async (req, res) => {
+  res.render("register");
+});
+app.post("/register", async (req, res) => {
   const { name, username, email, password, age, phone, img } = req.body;
   let passHash;
   const user = await userModel.findOne({ email: email });
@@ -61,9 +69,6 @@ app.post("/reg", async (req, res) => {
     }
   );
 });
-app.get("/profile", isLoging, async (req, res) => {
-  res.render("profile");
-});
 app.get("/login", (req, res) => {
   res.render("login");
 });
@@ -89,16 +94,15 @@ app.post("/login", async (req, res) => {
   //   res.render("login");
 });
 
-app.get('/logout',(req,res)=>{
-    req.cookies('token','')
-    res.redirect('/login')
-})
-
-function isLoging(req, res, next) {
-  const token = req.cookie("token");
-  if (token) {
-    next();
-  }
+app.get("/logout", (req, res) => {
+  req.cookies("token", "");
   res.redirect("/login");
+});
+function isLoging(req, res, next) {
+  const token = req.cookie;
+  if (!token) {
+    res.redirect("/login");
+  }
+  next();
 }
 app.listen(3000);
