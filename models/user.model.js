@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const connectionStr = "mongodb://127001:27017/miniProjectDB";
+const connectionStr = "mongodb://127.0.0.1:27017/miniProjectDB";
 mongoose.connect(connectionStr)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error(err));
@@ -27,12 +27,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    pass: {
+    password: {
       type: String,
       required: true,
-      min: (6)["you can make password for 6 to 8 words.. "],
-      max: (8)["you can make password for 6 to 8 words.. "],
-    },
+     },
     post: [
       {
         type: mongoose.Schema.Types.ObjectId,
