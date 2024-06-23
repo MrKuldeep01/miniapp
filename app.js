@@ -17,17 +17,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // routes
 
-app.get("/",isLoging, async (req, res) => {
-  res.render("profile");
+app.get("/", isLoging, async (req, res) => {
+  jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
+    if (err) {
+      res.send(err);
+    }
+    const email = await userData.email;
+    const currentUser = await userModel.findOne({ email });
+    res.render("profile", { currentUser });
+  });
 });
-app.get('/profile',(req,res)=>{
-  console.log(req.cookies.token)
-  res.render("profile");
-
-})
 
 app.get("/register", async (req, res) => {
+  res.render("register");
 });
+
 app.post("/register", async (req, res) => {
   const { name, username, email, password, age, phone, img } = req.body;
   const user = await userModel.findOne({ email: email });
@@ -51,9 +55,9 @@ app.post("/register", async (req, res) => {
         phone,
         img,
       });
-    const token = jwt.sign({ email: email, userid: newUser._id }, "shhhh");
+      const token = jwt.sign({ email: email, userid: newUser._id }, "shhhh");
       res.cookie("token", token);
-      res.redirect("/profile")
+      res.redirect("/");
     });
   });
 });
@@ -61,36 +65,58 @@ app.post("/register", async (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login");
 });
+
 app.post("/login", async (req, res) => {
-  res.cookie("token", "");
+  // res.cookie("token", "");
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if (!user) {
-    res.send("something went wrong");
+    res.send("user is you need to register first");
   }
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
       jwt.sign({ email: email, userid: user._id }, "shhhh", (err, token) => {
         if (err) {
-          res.send;
+          res.send(err);
         }
         res.cookie("token", token);
-        res.redirect("/profile");
+        res.redirect("/");
       });
+    } else {
+      res.redirect("/login");
     }
   });
-
-  //   res.render("login");
 });
 
 app.get("/logout", (req, res) => {
-  res.cookie("token", "");
-  res.redirect("/login");
+  // res.cookie("token", "");
+  res.clearCookie("token");
+  res.redirect("/");
 });
+
+app.get("/posts", async(req, res) => {
+  const posts = await postModel.find()
+  // console.log(posts);
+  res.render("postShow",{posts});
+});
+app.get("/post/create", async (req, res) => {
+  res.render("createPost");
+});
+app.post("/post/create", async (req, res) => {
+  const { desc, img } = req.body;
+  const post = await postModel.create({
+    desc,
+    img,
+  });
+  console.log(post);
+  res.redirect("/posts");
+});
+
 function isLoging(req, res, next) {
   if (!req.cookies.token) {
     res.redirect("/login");
   }
   next();
 }
+
 app.listen(3000);

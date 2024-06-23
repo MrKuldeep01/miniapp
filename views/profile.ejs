@@ -7,24 +7,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <section class="px-2 py-10 md:px-0">
+    <section class="px-2 py-10 md:px-0 w-full h-screen ">
       <div class="mx-auto max-w-4xl">
-        <div class="md:flex md:items-center md:justify-center md:space-x-14">
-          <div class="relative h-48 w-48 flex-shrink-0">
-            <img
-              class="relative h-48 w-48 rounded-full object-cover"
+        <a
+        href="/logout"
+        class=" mx-4 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+      >
+        Logout
+      </a>
+      
+        <div class="md:flex md:items-center flex gap-10 justify-center items-center md:justify-center md:space-x-14">
+          <div class="relative h-48 w-48 flex-shrink-0 bg-slate-700/20">
+           <img
+              class="m-6 relative h-48 w-48 rounded-md object-cover"
+           <%if(currentUser.img){%>
+            src="<% currentUser.img%>"            
+            <%}else{%>
               src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60"
+              <%}%>  
               alt=""
             />
+          
           </div>
-          <div class="mt-10 md:mt-0">
+          <div class="mt-10 md:mt-0 ">
             <blockquote>
-              <p class="text-xl text-black">Bio...</p>
+              <p class="text-xl text-black"><%= currentUser.name%> </p>
             </blockquote>
-            <p class="mt-7 text-lg font-semibold text-black">Name </p>
-            <p class="mt-1 text-base text-gray-600">role</p>
+            <p class="mt-7 text-lg font-semibold text-black"><%=currentUser.phone%></p>
+            <p class="mt-1 text-base text-gray-600"><%=currentUser.email%></p>
           </div>
+                 
         </div>
+        <hr class="m-10">
+        <a
+        href="/posts"
+        class="w-full text-center mx-4 rounded-md bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+      >
+        Posts
+      </a>
       </div>
     </section>
   </body>
