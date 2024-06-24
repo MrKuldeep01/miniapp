@@ -17,16 +17,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // routes
 
-app.get("/", isLoging, async (req, res) => {
-  jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
-    if (err) {
-      res.send(err);
-    }
-    const email = await userData.email;
-    const currentUser = await userModel.findOne({ email });
-    console.log("we are on / page");
-    res.render("profile", { user: currentUser });
-  });
+app.get("/", isLogin, async (req, res) => {
+  const userData = req.user;
+  const email = await userData.email;
+  const currentUser = await userModel.findOne({ email });
+  res.render("profile", { user: currentUser });
 });
 
 app.get("/register", async (req, res) => {
@@ -72,7 +67,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if (!user) {
-    res.send("user is you need to register first");
+    res.send("<h1>You need to register first</h1>");
   }
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
@@ -95,29 +90,29 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/posts", async (req, res) => {
-  const posts = await postModel.find();
+app.get("/posts", isLogin, async (req, res) => {
+  const posts = await postModel.find().populate("owner");
   if (!posts) {
     res.redirect("/post/nothing");
   }
-  const owner = await userModel.findOne({ _id: posts[0].owner });
-  res.render("postShow", { posts, owner });
+  res.render("postShow", { posts });
 });
 
-app.get("/profile/edit", (req, res) => {
-  console.log("edit run ");
+app.get("/profile/edit", isLogin, (req, res) => {
   res.render("editProfile");
 });
-app.post("/profile/edit", async (req, res) => {
+app.post("/profile/edit", isLogin, async (req, res) => {
   jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
     if (err) {
       res.send(`<h2>${err}</h2>`);
     }
-    const { name, phone, img } = req.body;
-    console.log(`${userData}`);
-    const userId = userData._id;
-    await userModel.findOneAndUpdate(
-      { _id: userId },
+    let { name, phone, img } = req.body;
+    const user = await userModel.findOne({ email: userData.email });
+    name = name ? name : user.name;
+    phone = phone ? phone : user.phone;
+    img = img ? img : user.img;
+    const updatedUser = await userModel.findOneAndUpdate(
+      { _id: userData.userid },
       {
         name,
         phone,
@@ -127,13 +122,13 @@ app.post("/profile/edit", async (req, res) => {
     res.redirect("/");
   });
 });
-app.get("/post/nothing", (req, res) => {
+app.get("/post/nothing", isLogin, (req, res) => {
   res.render("emptyPosts");
 });
-app.get("/post/create", async (req, res) => {
+app.get("/post/create", isLogin, async (req, res) => {
   res.render("createPost");
 });
-app.post("/post/create", async (req, res) => {
+app.post("/post/create", isLogin, async (req, res) => {
   const { desc, img } = req.body;
   jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
     if (err) {
@@ -152,11 +147,40 @@ app.post("/post/create", async (req, res) => {
   });
 });
 
-function isLoging(req, res, next) {
+app.get("/post/like/:postId", isLogin, async (req, res) => {
+  const posts = await postModel.find();
+  const post = await postModel.findOne({ _id: req.params.postId });
+  const user = req.user;
+  if (post.likes.indexOf(user.userid) === -1) {
+    post.likes.push(user.userid);
+  } else {
+    post.likes.splice(post.likes.indexOf(user.userid), 1);
+  }
+  await post.save();
+  res.redirect("/posts");
+});
+
+app.get("/post/delete/:postId", isLogin, async (req, res) => {
+  const postId = req.params.postId;
+  const post = await postModel.findOne({ _id: postId });
+  if (req.user.userid === post.owner) {
+    await postModel.findOneAndDelete({ _id: postId });
+  }
+  res.redirect("/posts");
+});
+
+function isLogin(req, res, next) {
   if (!req.cookies.token) {
     res.redirect("/login");
   }
-  next();
+
+  jwt.verify(req.cookies.token, "shhhh", (err, userData) => {
+    if (err) {
+      res.send(`<pre>${err}</pre>`);
+    }
+    req.user = userData;
+    next();
+  });
 }
 
 app.listen(3000);
