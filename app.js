@@ -66,7 +66,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if (!user) {
-    res.send("<h1>You need to register first</h1>");
+    res.send("<a href='/register'>You need to register first</a>");
   }
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
