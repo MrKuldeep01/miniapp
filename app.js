@@ -101,6 +101,7 @@ app.get("/posts", isLogin, async (req, res) => {
 app.get("/profile/edit", isLogin, (req, res) => {
   res.render("editProfile");
 });
+
 app.post("/profile/edit", isLogin, async (req, res) => {
   jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
     if (err) {
@@ -122,12 +123,15 @@ app.post("/profile/edit", isLogin, async (req, res) => {
     res.redirect("/");
   });
 });
+
 app.get("/post/nothing", isLogin, (req, res) => {
   res.render("emptyPosts");
 });
+
 app.get("/post/create", isLogin, async (req, res) => {
   res.render("createPost");
 });
+
 app.post("/post/create", isLogin, async (req, res) => {
   const { desc, img } = req.body;
   jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
@@ -163,9 +167,33 @@ app.get("/post/like/:postId", isLogin, async (req, res) => {
 app.get("/post/delete/:postId", isLogin, async (req, res) => {
   const postId = req.params.postId;
   const post = await postModel.findOne({ _id: postId });
-  if (req.user.userid === post.owner) {
+  if (req.user.userid == post.owner) {
     await postModel.findOneAndDelete({ _id: postId });
   }
+  res.redirect("/posts");
+});
+
+app.get("/post/edit/:postId", isLogin, async(req, res) => {
+  const postId = req.params.postId;
+  const post = await postModel.findOne({ _id: postId });
+  const userId = req.user.userid;
+  userId == post.owner? res.render("editPost", { postId }) :res.redirect('/posts') 
+});
+
+app.post("/post/edit/:postId", isLogin, async (req, res) => {
+  const postId = req.params.postId;
+  const post = await postModel.findOne({ _id: postId });
+  const userId = req.user.userid;
+  let { desc, img } = req.body;
+  desc = desc ? desc : post.desc;
+  img = img ? img : post.img;
+  await postModel.findOneAndUpdate(
+    { _id: postId },
+    {
+      desc,
+      img,
+    }
+  )
   res.redirect("/posts");
 });
 
