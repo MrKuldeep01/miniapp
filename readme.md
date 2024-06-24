@@ -1,4 +1,4 @@
-## Node.js Project: User Management and Posts
+## Node.js Project☕: User Management System 🚀😎
 
 This project implements a user management system with post creation and viewing functionalities. It's built with Node.js and follows the guidance of Harsh from the Sheriyanse Coding School channel on YouTube.
 

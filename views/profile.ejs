@@ -7,21 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <section class="px-2 py-10 md:px-0 w-full h-screen ">
+    <section class="px-2 py-10 w-full h-screen ">
       <div class="mx-auto max-w-4xl">
         <a
+        href="/profile/edit"
+        class=" mx-1 rounded-l-full  bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+      >
+        Edit profile
+      </a>
+        <a
         href="/logout"
-        class=" mx-4 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        class=" mx-1 rounded-r-full  bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
       >
         Logout
       </a>
       
-        <div class="md:flex md:items-center flex gap-10 justify-center items-center md:justify-center md:space-x-14">
+        <div class="flex gap-10 justify-center items-center ">
           <div class="relative h-48 w-48 flex-shrink-0 bg-slate-700/20">
            <img
               class="m-6 relative h-48 w-48 rounded-md object-cover"
-           <%if(currentUser.img){%>
-            src="<% currentUser.img%>"            
+           <%if(user.img){%>
+            src="<% user.img%>"            
             <%}else{%>
               src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60"
               <%}%>  
@@ -29,21 +35,29 @@
             />
           
           </div>
-          <div class="mt-10 md:mt-0 ">
+          <div class="mt-10 ">
             <blockquote>
-              <p class="text-xl text-black"><%= currentUser.name%> </p>
+              <p class="text-6xl text-black font-mono"><%= user.name%> </p>
+              <hr class="my-4">  
             </blockquote>
-            <p class="mt-7 text-lg font-semibold text-black"><%=currentUser.phone%></p>
-            <p class="mt-1 text-base text-gray-600"><%=currentUser.email%></p>
+            <p class="mt-7 text-lg font-semibold text-black"><label>phone:</label>&nbsp;&nbsp;<%=user.phone%></p>
+            <p class="mt-1 text-base text-gray-600"><label>email:</label>&nbsp;&nbsp;<%=user.email%></p>
+            <p class="mt-1 text-base text-gray-600"><label>Posts count:</label>&nbsp;&nbsp;<%=user.post.length%></p>
           </div>
                  
         </div>
         <hr class="m-10">
         <a
         href="/posts"
-        class="w-full text-center mx-4 rounded-md bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        class="w-full text-center mx-1 rounded-l-full bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
       >
-        Posts
+        See Posts
+      </a>
+        <a
+        href="/post/create"
+        class="w-full text-center mx-1 rounded-r-full bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+      >
+       Create new post
       </a>
       </div>
     </section>

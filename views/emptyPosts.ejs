@@ -52,67 +52,14 @@
               >
                 YOUR POSTS
               </span> -->
-              <h1 class="text-4xl font-bold">Latest posts</h1>
-            </div>
-            
-            <div class="my-18 px-4 ">
-              <!-- <div class="mb-12 w-full px-4 lg:mb-0 lg:w-1/2">
-                  <a class="group block w-full" href="#">
-                    <img
-                      class="mb-5 block w-full rounded-lg"
-                     
-                      src="https://plus.unsplash.com/premium_photo-1663852297654-56d979cf72d2?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YmxvZ3xlbnwwfHwwfHw%3D&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60"
-                      alt=""
-                    />
-                    <span class="mb-5 block text-gray-500">Jul 20, 2023</span>
-                    <h4 class="mb-5 text-3xl font-semibold text-gray-900">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </h4>
-                    <p class="max-w-xl text-lg text-gray-500">
-                      Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                      amet sint. Velit officia consequat duis enim velit mollit
-                      xercitation veniam consequat sunt nostrud amet.
-                    </p>
-                  </a>
-                </div> -->
-
-              <div class="w-full flex flex-wrap justify-center item-center px-4 ">
-
-                <% posts.map((post)=>{ %>
-                <span class="w-full bg-slate-700/10 overflow-hidden p-2 pr-4 rounded-xl group mb-8 md:flex ">
-                  <img class="h-40 w-48 rounded-lg" <%if(post.img){ %>
-                  src=<%=post.img%> <%}else{%>
-                  src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"<%}%>
-                  />
-                  <div class="my-4 pt-2 md:ml-6 md:mt-0">
-                    <span class="mb-2 block text-gray-500 flex"
-                      ><%= post.createdAt%> &nbsp;&nbsp;&nbsp;&nbsp;  
-                      <a href="" class="py-2 px-4 text-blue-600 overflow-hidden flex gap-2 item-center justify-center text-sm underline">
-                        <img src="<%=owner.img%>" class="w-8 h-8 rounded-full object-cover"  >
-                        <%= owner.name%></a></span
-                    >
-                    <h4 class="text-xl font-semibold text-gray-900">
-                      <%= post.desc%>
-                    </h4>
-                  </div>
-                  
-                </a>
-                <%})%>
-              </div>
-
-            </div>
-            <div class="mt-14 text-center">
-              <!-- <button
-                  type="button"
-                  class="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  View All Posts
-                </button> -->
+              <h1 class="text-4xl font-bold">
+                Noting to see, You need to create first...
+              </h1>
             </div>
           </div>
         </div>
       </section>
-      
+
       <hr class="my-8" />
       <footer class="relative overflow-hidden bg-white py-8">
         <div class="container relative z-10 mx-auto px-4">

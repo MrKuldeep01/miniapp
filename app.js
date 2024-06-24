@@ -24,7 +24,8 @@ app.get("/", isLoging, async (req, res) => {
     }
     const email = await userData.email;
     const currentUser = await userModel.findOne({ email });
-    res.render("profile", { currentUser });
+    console.log("we are on / page");
+    res.render("profile", { user: currentUser });
   });
 });
 
@@ -94,22 +95,61 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/posts", async(req, res) => {
-  const posts = await postModel.find()
-  // console.log(posts);
-  res.render("postShow",{posts});
+app.get("/posts", async (req, res) => {
+  const posts = await postModel.find();
+  if (!posts) {
+    res.redirect("/post/nothing");
+  }
+  const owner = await userModel.findOne({ _id: posts[0].owner });
+  res.render("postShow", { posts, owner });
+});
+
+app.get("/profile/edit", (req, res) => {
+  console.log("edit run ");
+  res.render("editProfile");
+});
+app.post("/profile/edit", async (req, res) => {
+  jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
+    if (err) {
+      res.send(`<h2>${err}</h2>`);
+    }
+    const { name, phone, img } = req.body;
+    console.log(`${userData}`);
+    const userId = userData._id;
+    await userModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        name,
+        phone,
+        img,
+      }
+    );
+    res.redirect("/");
+  });
+});
+app.get("/post/nothing", (req, res) => {
+  res.render("emptyPosts");
 });
 app.get("/post/create", async (req, res) => {
   res.render("createPost");
 });
 app.post("/post/create", async (req, res) => {
   const { desc, img } = req.body;
-  const post = await postModel.create({
-    desc,
-    img,
+  jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
+    if (err) {
+      res.send(err);
+    }
+    const email = await userData.email;
+    const currentUser = await userModel.findOne({ email });
+    const post = await postModel.create({
+      desc,
+      img,
+      owner: currentUser._id,
+    });
+    currentUser.post.push(post._id);
+    await currentUser.save();
+    res.redirect("/posts");
   });
-  console.log(post);
-  res.redirect("/posts");
 });
 
 function isLoging(req, res, next) {
