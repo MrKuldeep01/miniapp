@@ -15,13 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// routes
-
+// routes are completed ✅
 app.get("/", isLogin, async (req, res) => {
   const userData = req.user;
-  const email = await userData.email;
-  const currentUser = await userModel.findOne({ email });
-  res.render("profile", { user: currentUser });
+  const email = userData.email;
+  const user = await userModel.findOne({ email });
+  res.render("profile", { user });
 });
 
 app.get("/register", async (req, res) => {
@@ -92,10 +91,14 @@ app.get("/logout", (req, res) => {
 
 app.get("/posts", isLogin, async (req, res) => {
   const posts = await postModel.find().populate("owner");
-  if (!posts) {
+  if (posts.length == 0) {
     res.redirect("/post/nothing");
   }
   res.render("postShow", { posts });
+});
+
+app.get("/post/nothing", isLogin, (req, res) => {
+  res.render("emptyPosts");
 });
 
 app.get("/profile/edit", isLogin, (req, res) => {
@@ -122,10 +125,6 @@ app.post("/profile/edit", isLogin, async (req, res) => {
     );
     res.redirect("/");
   });
-});
-
-app.get("/post/nothing", isLogin, (req, res) => {
-  res.render("emptyPosts");
 });
 
 app.get("/post/create", isLogin, async (req, res) => {

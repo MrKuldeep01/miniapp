@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const connectionStr = "mongodb://127.0.0.1:27017/miniProjectDB";
+// const connectionStr = "mongodb://127.0.0.1:27017/miniProjectDB"; //to save data localy
+const connectionStr = "mongodb+srv://kuldeep:kumar@cluster1.xahyocj.mongodb.net/miniProjectDB";
+// const cloudConnection = 'mongodb+srv://kuldeep:<password>@cluster1.xahyocj.mongodb.net/'; // to save on cloude
 mongoose.connect(connectionStr)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error(err));
