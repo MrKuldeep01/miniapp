@@ -215,10 +215,10 @@ function isLogin(req, res, next) {
   if (!req.cookies.token) {
     res.redirect("/login");
   }
-
-  jwt.verify(req.cookies.token, "shhhh", (err, userData) => {
+  let token =req.cookies.token; 
+  jwt.verify(token, "shhhh", (err, userData) => {
     if (err) {
-      res.send(err);
+      console.log(err);
     }
     req.user = userData;
     next();
