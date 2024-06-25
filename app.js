@@ -143,7 +143,7 @@ app.post("/profile/edit", isLogin, async (req, res) => {
 });
 
 app.get("/post/create", isLogin, async (req, res) => {
-  res.render("createPost");
+  res.render("createpost");
 });
 
 app.post("/post/create", isLogin, async (req, res) => {
