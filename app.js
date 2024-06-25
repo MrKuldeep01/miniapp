@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // setting view engine
+app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 // parsing
 app.use(express.json());
