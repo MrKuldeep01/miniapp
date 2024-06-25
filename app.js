@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", isLogin, async (req, res) => {
   const userData = req.user;
   const email = userData.email;
+  console.log(userData)
   const user = await userModel.findOne({ email });
   res.render("profile", { user });
 });
@@ -218,7 +219,7 @@ function isLogin(req, res, next) {
   let token =req.cookies.token; 
   jwt.verify(token, "shhhh", (err, userData) => {
     if (err) {
-      console.log(err);
+      res.send(err);
     }
     req.user = userData;
     next();
