@@ -143,7 +143,7 @@ app.post("/profile/edit", isLogin, async (req, res) => {
 });
 
 app.get("/post/create", isLogin, async (req, res) => {
-  res.render("createPost");
+  res.render("createpost");
 });
 
 app.post("/post/create", isLogin, async (req, res) => {
@@ -182,6 +182,9 @@ app.get("/post/delete/:postId", isLogin, async (req, res) => {
   const postId = req.params.postId;
   const post = await postModel.findOne({ _id: postId });
   if (req.user.userid == post.owner) {
+    const owner = await userModel.findOne({_id:req.user.userid})
+    owner.post.splice(owner.post.indexOf(postId),1);
+    await owner.save();
     await postModel.findOneAndDelete({ _id: postId });
   }
   res.redirect("/posts");
