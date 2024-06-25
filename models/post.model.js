@@ -4,6 +4,7 @@ const postSchema = new mongoose.Schema(
   {
     img: {
       type: String,
+      default:"https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/profile-website-icon.png"
     },
     desc: {
       type: String,

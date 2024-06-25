@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Profile - Mr kumar</title>
+    <title>Login please - Mr kumar</title>
     <link rel="web icon" href="../images/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -27,20 +27,28 @@
                 class="my-1 h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 type="email"
                 name = "email"
+                required
                 placeholder="email"
               />
               <input
                 class="my-1 h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 type="password"
                 name = "password"
+                required
                 placeholder="password"
               />
               <button
                 type="submit"
-                class=" mt-4 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                class=" mt-4 rounded-l-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
                 Login 
               </button>
+              <a
+              href="/register"
+              class=" mt-4 rounded-r-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Register if new 
+              </a>
               </form>
             </div>
           </div>

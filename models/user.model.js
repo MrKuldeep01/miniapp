@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
     },
     img: {
       type: String,
+      default:"https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/corporate-user-icon.png"
     },
     email: {
       type: String,

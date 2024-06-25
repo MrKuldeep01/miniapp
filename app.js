@@ -64,23 +64,36 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
   // res.cookie("token", "");
   const { email, password } = req.body;
-  const user = await userModel.findOne({ email });
-  if (!user) {
-    res.send("<a href='/register'>You need to register first</a>");
+
+  if (!email || !password) {
+    console.log("both field are required");
+    res.redirect("/login");
   }
+  const user = await userModel.findOne({ email: email });
+  if (!user) {
+    console.log(
+      "please fill all field with correct data or register if new 😕"
+    );
+    res.redirect("/register");
+  }
+  else{
+  
   bcrypt.compare(password, user.password, function (err, result) {
-    if (result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result === true) {
       jwt.sign({ email: email, userid: user._id }, "shhhh", (err, token) => {
         if (err) {
-          res.send(err);
+          console.log(err, "error in signing");
         }
         res.cookie("token", token);
         res.redirect("/");
       });
     } else {
-      res.redirect("/login");
+      console.log("wrong password");
     }
-  });
+  })};
 });
 
 app.get("/logout", (req, res) => {
@@ -172,11 +185,13 @@ app.get("/post/delete/:postId", isLogin, async (req, res) => {
   res.redirect("/posts");
 });
 
-app.get("/post/edit/:postId", isLogin, async(req, res) => {
+app.get("/post/edit/:postId", isLogin, async (req, res) => {
   const postId = req.params.postId;
   const post = await postModel.findOne({ _id: postId });
   const userId = req.user.userid;
-  userId == post.owner? res.render("editPost", { postId }) :res.redirect('/posts') 
+  userId == post.owner
+    ? res.render("editPost", { postId })
+    : res.redirect("/posts");
 });
 
 app.post("/post/edit/:postId", isLogin, async (req, res) => {
@@ -192,7 +207,7 @@ app.post("/post/edit/:postId", isLogin, async (req, res) => {
       desc,
       img,
     }
-  )
+  );
   res.redirect("/posts");
 });
 
@@ -203,7 +218,7 @@ function isLogin(req, res, next) {
 
   jwt.verify(req.cookies.token, "shhhh", (err, userData) => {
     if (err) {
-      res.send(`<pre>${err}</pre>`);
+      res.send(err);
     }
     req.user = userData;
     next();
