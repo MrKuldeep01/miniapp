@@ -6,7 +6,7 @@ const postModel = require("./models/post.model");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config()
 // setting view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
@@ -15,13 +15,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+  const port =  process.env.PORT || 3000
 // routes are completed ✅
 app.get("/", isLogin, async (req, res) => {
   const userData = req.user;
   const email = userData.email;
-  console.log(userData)
   const user = await userModel.findOne({ email });
+  console.log(userData)
   res.render("profile", { user });
 });
 
@@ -94,6 +94,7 @@ app.post("/login", async (req, res) => {
       });
     } else {
       console.log("wrong password");
+      res.redirect('login')
     }
   })};
 });
@@ -230,4 +231,6 @@ function isLogin(req, res, next) {
   });
 }
 
-app.listen(3000);
+app.listen(port,()=>{
+  console.log(`application running on ${port}`)
+});

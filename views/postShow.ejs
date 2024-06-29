@@ -46,13 +46,17 @@
 
       <section class=" overflow-hidden py-20">
             <div class="mx-auto mb-14 max-w-2xl text-center">
-                <h1 class="text-4xl font-bold">Latest posts</h1>
+<span class=" w-full flex justify-center items-center">
+              <h1 class="text-4xl font-bold">Latest posts</h1>
+              <img src="../images/icon.png" class="h-14 w-14 hidden sm:inline-block">
+            </span>                
+
             </div>
             
             <div class="my-18 px-4 ">
             <div class="w-full flex flex-wrap justify-center item-center px-4 ">
                 <% posts.reverse().map((post)=>{ %>
-                <span class="w-full bg-slate-700/10 relative p-2 pr-4 rounded-xl mb-8 md:flex md:justify-start md:item-center md:flex-wrap md:gap-5 ">
+                <span class="w-full bg-slate-700/10  relative p-4 rounded-xl mb-8 md:flex md:justify-start md:item-center md:flex-wrap md:gap-5 ">
                   <img class="h-40 w-48 rounded-lg" <%if(post.img){ %>
                   src=<%=post.img%> <%}else{%>
                   src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/profile-website-icon.png"<%}%>
@@ -60,9 +64,9 @@
                   <div class="my-4 pt-2 md:ml-6 md:mt-0">
                     <span class="mb-2 block  text-gray-500 flex"
                       ><%= post.createdAt%> &nbsp;&nbsp;&nbsp;&nbsp;  
-                      <a href="" class="py-2 px-4 text-blue-600 overflow-hidden flex gap-2 item-center justify-center text-sm underline absolute top-2 right-2">
+                      <a href="" class="py-2 px-4 text-blue-600 overflow-hidden sm:flex flex-col gap-2 item-center justify-center text-sm absolute top-2 right-0 -z-10">
                         <%= post.owner.name%>
-                        <img src="<%=post.owner.img%>" class="w-10 h-10 rounded-xl object-cover"  >
+                        <img src="<%=post.owner.img%>" class="sm:w-10 sm:h-10 w-8 h-8 rounded-full object-cover md:hidden lg:block"   >
                       </a>
                     </span>
                     <h4 class="text-xl font-semibold text-gray-900">
@@ -80,47 +84,11 @@
       </section>
       
       <hr class="my-8" />
-      <footer class="relative overflow-hidden bg-white py-8">
+       <footer class="relative overflow-hidden bg-white py-8">
         <div class="container relative z-10 mx-auto px-4">
-          <div class="-m-8 flex flex-wrap items-center justify-between">
+          <div class="-m-8 ">
             <div class="w-auto p-8">
-              <ul class="-m-5 flex flex-wrap items-center">
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Privacy Policy
-                  </a>
-                </li>
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Terms of Service
-                  </a>
-                </li>
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Return Policy
-                  </a>
-                </li>
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="w-auto p-8">
-              <div class="-m-1.5 flex flex-wrap">
+              <div class="py-2 px-4 flex items-center bg-slate-700/10 sm:gap-10 gap-5 sm:justify-end justify-center rounded-l-full rounded-r-full sm:rounded-r-md ">
                 <div class="w-auto p-1.5">
                   <!-- likedin -->
                   <a

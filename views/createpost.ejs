@@ -8,9 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    
-    <form action="/post/create" method="post" class="w-full h-screen p-6 flex-col items-center justify-center gap-10 ">
-        <h1 class="my-6 text-center font-bold text-3xl">-: Post :-</h1>
+    <div class="w-full h-screen sm:flex justify-center items-center">
+    <form action="/post/create" method="post" class="w-full sm:w-1/2 h-screen p-6 flex-col items-center justify-center gap-10 ">
+        <h1 class="my-6 text-center font-semibold text-4xl"> Post </h1>
         <input
           class="my-6 flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           type="text"
@@ -25,18 +25,21 @@
           name="img"
           placeholder="image url please..."
         />
+        <span class="w-full flex justify-center items-center sm:justify-between ">
         <button
           type="submit"
-          class="my-6 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          class="m-1 sm:mx-2 sm:rounded-md rounded-l-lg bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
         >
           Post 
         </button>
         <a
         href="/posts"
-        class=" mx-4 rounded-md bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        class=" m-1 sm:mx-2 sm:rounded-md rounded-r-lg bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
       >
         cancel
       </a>
-      </form>
+    </span>
+    </form>
+  </div>
 </body>
 </html>

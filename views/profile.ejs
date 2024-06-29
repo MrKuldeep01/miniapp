@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home pe he aap - Mr kumar</title>
-    <link rel="web icon" href="../images/icon.png">
+    <link rel="web icon" href="../images/icon.png"><link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
@@ -14,7 +17,7 @@
           class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2"
         >
           <div class="block">
-            <ul class="inline-flex space-x-8">
+            <ul class="inline-flex space-x-8 ">
               <li>
                 <a
                   href="/post/create"
@@ -46,76 +49,37 @@
 
       <section class="relative overflow-hidden py-20">
         <div class="relative">
-          <div class="mx-auto max-w-xl lg:max-w-7xl">
-            <!-- here we go -->
-            <div class="mx-auto max-w-4xl">           
-              <div class="flex gap-10 justify-center items-center ">
-                <div class="relative h-72 w-72 rounded-md flex-shrink-0 m-10 bg-slate-700/20">
+            <!-- here we go -->      
+              <div class="grid grid-col-1 sm:flex gap-10 justify-center items-center w-screen ">
+                <div class="relative h-72 w-72 px-3 py-2 rounded-md flex-shrink-0  m-10 bg-slate-700/20">
                  <img
                     class="m-6 relative h-72 w-72 rounded-md object-cover"
                   src=<%=user.img%> 
                   />
                 
                 </div>
-                <div class="mt-10 ">
+                <div class="m-10 p-4">
                   <blockquote>
-                    <p class="text-6xl text-black font-mono"><%= user.name%> </p>
+                    <p class="sm:text-6xl text-4xl text-black font-mono"><%= user.name%> </p>
                     <hr class="my-4">  
                   </blockquote>
-                  <p class="mt-7 text-lg font-semibold text-black"><label>phone:</label>&nbsp;&nbsp;<%=user.phone%></p>
-                  <p class="mt-1 text-base text-gray-600"><label>email:</label>&nbsp;&nbsp;<%=user.email%></p>
+                  <p class="mt-7 text-lg font-semibold text-black/80"><label>Email:</label>&nbsp;&nbsp;<%=user.email%></p>
+                  <p class="mt-1 text-base text-gray-600"> <label>Phone:</label>&nbsp;&nbsp;<%=user.phone%>
+                  </p>
                   <p class="mt-1 text-base text-gray-600"><label>Posts count:</label>&nbsp;&nbsp;<%=user.post.length%></p>
-                  <a class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black relative -bottom-10 right-2"  href="/profile/edit">Edit profile</a> 
+                  <a class="rounded-md bg-black px-4 py-2 sm:text-basefont-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black relative -bottom-10 right-2 "  href="/profile/edit">Edit profile <i class="ri-user-settings-fill  ml-2"></i></a> 
                 </div>
               </div>
-              <hr class="m-10">
-            </div>            
-          </div>
+              <hr class="m-10">                             
         </div>
       </section>
       
       <hr class="my-8" />
       <footer class="relative overflow-hidden bg-white py-8">
         <div class="container relative z-10 mx-auto px-4">
-          <div class="-m-8 flex flex-wrap items-center justify-between">
+          <div class="-m-8 ">
             <div class="w-auto p-8">
-              <ul class="-m-5 flex flex-wrap items-center">
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Privacy Policy
-                  </a>
-                </li>
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Terms of Service
-                  </a>
-                </li>
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Return Policy
-                  </a>
-                </li>
-                <li class="p-5">
-                  <a
-                    class="font-medium text-gray-600 hover:text-gray-700"
-                    href="#"
-                  >
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="w-auto p-8">
-              <div class="-m-1.5 flex flex-wrap">
+              <div class="py-2 px-4 flex items-center bg-slate-700/10 sm:gap-10 gap-5 sm:justify-end justify-center rounded-l-full rounded-r-full sm:rounded-r-md ">
                 <div class="w-auto p-1.5">
                   <!-- likedin -->
                   <a
