@@ -151,8 +151,9 @@ app.get("/post/nothing", isLogin, (req, res) => {
   res.render("emptyPosts");
 });
 
-app.get("/profile/edit", isLogin, (req, res) => {
-  res.render("editProfile");
+app.get("/profile/edit", isLogin, async (req, res) => {
+  const user = await userModel.findOne({_id:req.user.userid})
+  res.render("editProfile",{user});
 });
 
 app.post("/profile/edit", isLogin, async (req, res) => {
@@ -206,9 +207,9 @@ app.get("/post/edit/:postId", isLogin, async (req, res) => {
   const postId = req.params.postId;
   const post = await postModel.findOne({ _id: postId });
   const userId = req.user.userid;
-  userId == post.owner
-    ? res.render("editPost", { postId })
-    : res.redirect("/posts");
+  if(userId == post.owner){
+    res.render("editPost", { post })}
+    else{ res.redirect("/posts");}
 });
 
 app.post("/post/edit/:postId", isLogin, async (req, res) => {
