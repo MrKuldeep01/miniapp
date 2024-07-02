@@ -6,23 +6,23 @@ const postModel = require("./models/post.model");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require('dotenv').config()
+require("dotenv").config();
 // setting view engine
-app.set('views', path.join(__dirname, 'views'));
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 // parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-  const port =  process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 // routes are completed ✅
 app.get("/", isLogin, async (req, res) => {
-  const userData = req.user;
-  const email = userData.email;
-  const user = await userModel.findOne({ email });
-  console.log(userData)
-  res.render("profile", { user });
+  const userid = req.user.userid;
+  const user = await userModel.findOne({ _id: userid });
+  const isOwner = req.user.userid === userid;
+  console.log(await user.populate("post"));
+  res.render("profile", { user, isOwner });
 });
 
 app.get("/register", async (req, res) => {
@@ -77,26 +77,25 @@ app.post("/login", async (req, res) => {
       "please fill all field with correct data or register if new 😕"
     );
     res.redirect("/register");
+  } else {
+    bcrypt.compare(password, user.password, function (err, result) {
+      if (err) {
+        console.log(err);
+      }
+      if (result === true) {
+        jwt.sign({ email: email, userid: user._id }, "shhhh", (err, token) => {
+          if (err) {
+            console.log(err, "error in signing");
+          }
+          res.cookie("token", token);
+          res.redirect("/");
+        });
+      } else {
+        console.log("wrong password");
+        res.redirect("login");
+      }
+    });
   }
-  else{
-  
-  bcrypt.compare(password, user.password, function (err, result) {
-    if (err) {
-      console.log(err);
-    }
-    if (result === true) {
-      jwt.sign({ email: email, userid: user._id }, "shhhh", (err, token) => {
-        if (err) {
-          console.log(err, "error in signing");
-        }
-        res.cookie("token", token);
-        res.redirect("/");
-      });
-    } else {
-      console.log("wrong password");
-      res.redirect('login')
-    }
-  })};
 });
 
 app.get("/logout", (req, res) => {
@@ -104,6 +103,41 @@ app.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
 });
+
+app.get("/account/:id", isLogin, async (req, res) => {
+  const userid = req.params.id;
+  const guest = await userModel.findOne({ _id: userid });
+  const isOwner = req.user.userid === userid;
+  if (isOwner) {
+    res.redirect("/");
+  } else {
+    res.render("profile", { user: guest, isOwner });
+  }
+});
+
+app.get("/post/create", isLogin, async (req, res) => {
+  res.render("createpost");
+});
+
+app.post("/post/create", isLogin, async (req, res) => {
+  const { desc, img } = req.body;
+  // jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
+  //   if (err) {
+  //     res.send(err);
+  //   }
+
+  const email = req.user.email;
+  const currentUser = await userModel.findOne({ email });
+  const post = await postModel.create({
+    desc,
+    img,
+    owner: currentUser._id,
+  });
+  currentUser.post.push(post._id);
+  await currentUser.save();
+  res.redirect("/posts");
+});
+// });
 
 app.get("/posts", isLogin, async (req, res) => {
   const posts = await postModel.find().populate("owner");
@@ -143,29 +177,6 @@ app.post("/profile/edit", isLogin, async (req, res) => {
   });
 });
 
-app.get("/post/create", isLogin, async (req, res) => {
-  res.render("createpost");
-});
-
-app.post("/post/create", isLogin, async (req, res) => {
-  const { desc, img } = req.body;
-  jwt.verify(req.cookies.token, "shhhh", async (err, userData) => {
-    if (err) {
-      res.send(err);
-    }
-    const email = await userData.email;
-    const currentUser = await userModel.findOne({ email });
-    const post = await postModel.create({
-      desc,
-      img,
-      owner: currentUser._id,
-    });
-    currentUser.post.push(post._id);
-    await currentUser.save();
-    res.redirect("/posts");
-  });
-});
-
 app.get("/post/like/:postId", isLogin, async (req, res) => {
   const posts = await postModel.find();
   const post = await postModel.findOne({ _id: req.params.postId });
@@ -183,8 +194,8 @@ app.get("/post/delete/:postId", isLogin, async (req, res) => {
   const postId = req.params.postId;
   const post = await postModel.findOne({ _id: postId });
   if (req.user.userid == post.owner) {
-    const owner = await userModel.findOne({_id:req.user.userid})
-    owner.post.splice(owner.post.indexOf(postId),1);
+    const owner = await userModel.findOne({ _id: req.user.userid });
+    owner.post.splice(owner.post.indexOf(postId), 1);
     await owner.save();
     await postModel.findOneAndDelete({ _id: postId });
   }
@@ -221,7 +232,7 @@ function isLogin(req, res, next) {
   if (!req.cookies.token) {
     res.redirect("/login");
   }
-  let token =req.cookies.token; 
+  let token = req.cookies.token;
   jwt.verify(token, "shhhh", (err, userData) => {
     if (err) {
       res.send(err);
@@ -231,6 +242,6 @@ function isLogin(req, res, next) {
   });
 }
 
-app.listen(port,()=>{
-  console.log(`application running on ${port}`)
+app.listen(port, () => {
+  console.log(`application running on ${port}`);
 });

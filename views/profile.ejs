@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%if(isOwner){%>
     <title>Home pe he aap - Mr kumar</title>
+    <%}else{%>
+      <title><%=user.name%>'s account view - Mr kumar</title>
+      <%}%>
     <link rel="web icon" href="../images/icon.png"><link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
     rel="stylesheet"
@@ -50,7 +54,7 @@
       <section class="relative overflow-hidden py-20">
         <div class="relative">
             <!-- here we go -->      
-              <div class="grid grid-col-1 sm:flex gap-10 justify-center items-center w-screen ">
+              <div class="grid grid-col-1 md:flex gap-10 justify-center items-center w-screen ">
                 <div class="relative h-72 w-72 px-3 py-2 rounded-md flex-shrink-0  m-10 bg-slate-700/20">
                  <img
                     class="m-6 relative h-72 w-72 rounded-md object-cover"
@@ -67,7 +71,10 @@
                   <p class="mt-1 text-base text-gray-600"> <label>Phone:</label>&nbsp;&nbsp;<%=user.phone%>
                   </p>
                   <p class="mt-1 text-base text-gray-600"><label>Posts count:</label>&nbsp;&nbsp;<%=user.post.length%></p>
+                  <%if(isOwner){%>
                   <a class="rounded-md bg-black px-4 py-2 sm:text-basefont-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black relative -bottom-10 right-2 "  href="/profile/edit">Edit profile <i class="ri-user-settings-fill  ml-2"></i></a> 
+                  <%}else{%>
+                  <%}%>
                 </div>
               </div>
               <hr class="m-10">                             
