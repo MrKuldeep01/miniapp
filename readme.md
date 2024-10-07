@@ -4,7 +4,7 @@
 ## Overview
 🚀 Excited to share my latest project! I’ve built an advanced full stack web application featuring user authentication and post management using Node.js, MongoDB, Express.js, and server-side rendering. This project allows users to register, log in, create and manage posts, like posts, and more—all while ensuring secure access through protected routes.
 
-A big shoutout to Harsh Sir from Sheryians Coding School on YouTube for the amazing tutorials that guided me through this process.
+A big shoutout to Harsh Sir from Sheryians Coding School on YouTube for this wonderful idea!.
 This project is a full-featured web application built using Node.js, MongoDB, Express.js, and server-side rendering. It offers a rich set of functionalities, providing a robust platform for user interaction and content management. The application is designed with a focus on security and usability, ensuring that only authenticated users can access certain routes and perform specific actions.
 
 ## Features
