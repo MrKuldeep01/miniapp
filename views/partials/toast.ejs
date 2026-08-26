@@ -1,0 +1,37 @@
+<% if (typeof flash !== "undefined" && flash) {
+  const styles = {
+    success: { box: "border-emerald-200 bg-emerald-50 text-emerald-800", icon: "ri-checkbox-circle-fill text-emerald-500" },
+    error:   { box: "border-red-200 bg-red-50 text-red-800",             icon: "ri-error-warning-fill text-red-500" },
+    warn:    { box: "border-amber-200 bg-amber-50 text-amber-800",       icon: "ri-alert-fill text-amber-500" },
+    info:    { box: "border-brand-200 bg-brand-50 text-brand-800",       icon: "ri-information-fill text-brand-500" },
+  };
+  const style = styles[flash.type] || styles.info;
+%>
+<div
+  id="app-toast"
+  role="status"
+  aria-live="polite"
+  class="fixed left-4 right-4 top-4 z-50 mx-auto flex max-w-sm items-start gap-3 rounded-xl border p-4 shadow-lg sm:left-auto <%= style.box %>"
+>
+  <i class="<%= style.icon %> mt-0.5 text-lg"></i>
+  <p class="flex-1 text-sm font-medium"><%= flash.message %></p>
+  <button
+    type="button"
+    onclick="document.getElementById('app-toast')?.remove()"
+    aria-label="Dismiss"
+    class="text-lg leading-none opacity-60 transition hover:opacity-100"
+  >
+    &times;
+  </button>
+</div>
+<script>
+  setTimeout(() => {
+    const toast = document.getElementById("app-toast");
+    if (!toast) return;
+    toast.style.transition = "opacity .3s ease, transform .3s ease";
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(-8px)";
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+</script>
+<% } %>

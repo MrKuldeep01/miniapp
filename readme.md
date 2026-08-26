@@ -1,11 +1,16 @@
-# Project Title: Full Stack Web Application 
+# miniapp — Full Stack Web Application
 ### with `Node.js`, `MongoDB`, `Express.js`, and `Server-Side Rendering`
 
 ## Overview
-🚀 Excited to share my latest project! I’ve built an advanced full stack web application featuring user authentication and post management using Node.js, MongoDB, Express.js, and server-side rendering. This project allows users to register, log in, create and manage posts, like posts, and more—all while ensuring secure access through protected routes.
+A small full-stack app featuring user authentication and post management,
+built with Node.js, MongoDB, Express.js, and server-side rendering (EJS).
+Users can register, log in, create and manage posts, like posts, and edit
+their profile — all behind protected routes.
 
-A big shoutout to Harsh Sir from Sheryians Coding School on YouTube for this wonderful idea!.
-This project is a full-featured web application built using Node.js, MongoDB, Express.js, and server-side rendering. It offers a rich set of functionalities, providing a robust platform for user interaction and content management. The application is designed with a focus on security and usability, ensuring that only authenticated users can access certain routes and perform specific actions.
+Idea credit: Harsh Sir, Sheryians Coding School (YouTube).
+
+See [`CLAUDE.md`](./CLAUDE.md) for implementation details, known issues, and
+notes for anyone (human or AI) working on this codebase.
 
 ## Features
 
@@ -25,12 +30,18 @@ This project is a full-featured web application built using Node.js, MongoDB, Ex
 - **Security:**
   - Most routes are protected and can only be accessed after logging in.
 
+- **Feedback:**
+  - Toast notifications for login/register/logout outcomes (wrong
+    password, duplicate email, session expired, etc.) — shown once, then
+    dismissed automatically.
+
 ## Technology Stack
 
 - **Node.js**: JavaScript runtime for building fast and scalable server-side applications.
 - **Express.js**: Web framework for Node.js, providing a robust set of features for web and mobile applications.
 - **MongoDB**: NoSQL database for storing user and post data.
 - **Server-Side Rendering**: Enhances SEO and performance by rendering pages on the server before sending them to the client.
+- **Tailwind CSS (Play CDN) + Remix Icon**: styling and iconography, configured once in `views/partials/head.ejs`.
 
 ## Installation
 
@@ -49,15 +60,45 @@ This project is a full-featured web application built using Node.js, MongoDB, Ex
    npm install
    ```
 
-4. **Start the application:**
-   ```bash
-   npm run start
+4. **Create a `.env` file** in the project root (see `.env.example`):
+   ```
+   PORT=3000
+   DB_URI=<your MongoDB connection string>
+   JWT_SECRET=<a long random string>
    ```
 
-5. **Open your browser and navigate to:**
-   ```js
+5. **Start the application:**
+   ```bash
+   npm start        # plain node
+   npm run dev       # nodemon, auto-restarts on file changes
+   ```
+
+6. **Open your browser and navigate to:**
+   ```
    http://localhost:3000
    ```
+
+## Project Structure
+
+```
+server.js            # entry point (loads config, connects DB, starts listening)
+src/
+  app.js              # express app assembly
+  config/             # env loading + DB connection
+  constants/          # shared literals
+  models/             # Mongoose schemas
+  middlewares/         # auth check, error handling, active-path + flash locals
+  controllers/         # request handlers, grouped by resource
+  routes/              # route → controller wiring, grouped by resource
+  utils/                # JWT helpers, async error wrapper, flash cookie helper
+views/
+  partials/             # shared head/navbar/footer/toast fragments
+  *.ejs                 # one template per page
+public/                # static assets
+```
+
+See [`CLAUDE.md`](./CLAUDE.md) for the full breakdown and the reasoning
+behind it.
 
 ## Usage
 
@@ -71,20 +112,22 @@ This project is a full-featured web application built using Node.js, MongoDB, Ex
 
 ### Authentication Routes
 - **Profile:** `/`
-- **Register:** `/register`
-- **Login:** `/login`
-- **Logout:** `/logout`
-- **Edit Profile:** `/edit-profile`
+- **Register:** `GET/POST /register`
+- **Login:** `GET/POST /login`
+- **Logout:** `GET /logout`
+- **View another user's profile:** `GET /account/:id`
+- **Edit Profile:** `GET/POST /profile/edit`
 
 ### Post Routes
-- **Create Post:** `/posts/create`
-- **View All Posts:** `/posts`
-- **Edit Post:** `/posts/edit/:postId`
-- **Delete Post:** `/posts/delete/:postId`
-- **Like Post:** `/posts/like/:postId`
+- **Create Post:** `GET/POST /post/create`
+- **View All Posts:** `GET /posts`
+- **Edit Post:** `GET/POST /post/edit/:postId`
+- **Delete Post:** `GET /post/delete/:postId`
+- **Like Post:** `GET /post/like/:postId`
 
 ### Protected Routes
-Most of the routes mentioned above are protected and can only be accessed after logging in.
+All routes except `/register`, `/login`, and `/logout` require a valid auth
+cookie (set on login/register) and redirect to `/login` otherwise.
 
 ## Contributing
 

@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New post - Mr kumar</title>
-    <link rel="web icon" href="../images/icon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div class="w-full h-screen sm:flex justify-center items-center">
-    <form action="/post/create" method="post" class="w-full sm:w-1/2 h-screen p-6 flex-col items-center justify-center gap-10 ">
-        <h1 class="my-6 text-center font-semibold text-4xl"> Post </h1>
-        <input
-          class="my-6 flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-          type="text"
-          required
-          name="desc"
+  <head>
+    <%- include('partials/head', { title: 'New post' }) %>
+  </head>
+  <body class="flex min-h-screen flex-col bg-slate-50 text-slate-900 antialiased">
+    <%- include('partials/toast') %>
+    <%- include('partials/navbar') %>
 
-          placeholder="description for the post"
-        />
-        <input
-          class="my-6 flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-          type="text"
-          name="img"
-          placeholder="image url please..."
-        />
-        <span class="w-full flex justify-center items-center sm:justify-between ">
-        <button
-          type="submit"
-          class="m-1 sm:mx-2 sm:rounded-md rounded-l-lg bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        >
-          Post 
-        </button>
-        <a
-        href="/posts"
-        class=" m-1 sm:mx-2 sm:rounded-md rounded-r-lg bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-      >
-        cancel
-      </a>
-    </span>
-    </form>
-  </div>
-</body>
+    <main class="flex flex-1 items-center justify-center px-4 py-16">
+      <div class="w-full max-w-lg">
+        <h1 class="mb-8 text-center text-2xl font-bold text-slate-900">Create a post</h1>
+
+        <form action="/post/create" method="post" class="card space-y-4 p-6">
+          <div>
+            <label class="label" for="desc">Description</label>
+            <input
+              class="field"
+              type="text"
+              id="desc"
+              name="desc"
+              required
+              placeholder="What's on your mind?"
+            />
+          </div>
+          <div>
+            <label class="label" for="img">Image URL</label>
+            <input
+              class="field"
+              type="text"
+              id="img"
+              name="img"
+              placeholder="https://example.com/photo.jpg"
+            />
+          </div>
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="btn-primary flex-1">
+              <i class="ri-send-plane-line"></i> Post
+            </button>
+            <a href="/posts" class="btn-secondary flex-1">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
 </html>
